@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NewsApplication</string>
+    <string name="temp">Temp string</string>
+    <string name="no_connection">No internet connection!</string>
+    <string name="api_error">An error occurred while retrieving the data from Newsapi.org</string>
+    <string name="read_more">Read more</string>
+</resources>

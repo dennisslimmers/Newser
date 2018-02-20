@@ -5,6 +5,7 @@ public class Config {
     private static final String API_URL = "https://newsapi.org/v2/top-headlines?sources=rtl-nieuws&apiKey=";
     private static final String APP_NAME = "Newser";
     private static final String APP_NAME_FONT = "fonts/cocogoose.ttf";
+    private static final String HOME_NEWS_SOURCE = "RTL Nieuws";
 
     private static final String APP_VERSION = "0.1";
 
@@ -26,5 +27,9 @@ public class Config {
 
     public static String getFullApiUrl() {
         return API_URL + API_KEY;
+    }
+
+    public static String getHomeNewsSource() {
+        return HOME_NEWS_SOURCE;
     }
 }

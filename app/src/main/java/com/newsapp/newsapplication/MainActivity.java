@@ -35,18 +35,15 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        try {
-            this.getActionBar().setDisplayShowTitleEnabled(false);
-        } catch (NullPointerException e) {
-            Log.v(TAG, e.getMessage());
-        }
-
         TextView status = this.findViewById(R.id.ConnectionStatus);
         if (!this.hasConnection()) {
             status.setText(getString(R.string.no_connection));
         } else {
             status.setVisibility(View.INVISIBLE);
-            // setTitle("RTL Nieuws");
+
+            // Set action bar title
+            if (this.getActionBar() != null)
+                this.getActionBar().setTitle(Config.getHomeNewsSource());
 
             // Retrieve the data
             new NewsapiConnection().execute();

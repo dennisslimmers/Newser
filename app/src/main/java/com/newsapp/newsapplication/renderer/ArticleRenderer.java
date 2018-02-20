@@ -82,7 +82,7 @@ public final class ArticleRenderer {
             LinearLayout.LayoutParams params = this.getParams();
             params.setMargins(20,0,20,10);
             description.setLayoutParams(params);
-            description.setText(article.getString("description"));
+            description.setText(this.limitDescriptionContent(article.getString("description")));
             description.setTextColor(Color.BLACK);
 
             return description;
@@ -152,6 +152,13 @@ public final class ArticleRenderer {
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         );
+    }
+
+    private String limitDescriptionContent(String description) {
+        if (description.toCharArray().length > 200)
+            return description.substring(0, 200).trim() + "...";
+        else
+            return  description;
     }
 }
 

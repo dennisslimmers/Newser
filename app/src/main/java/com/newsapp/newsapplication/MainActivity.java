@@ -64,8 +64,9 @@ public class MainActivity extends Activity {
             for (int i = 0; i < Articles.length(); i++) {
                 try {
                     JSONObject article = Articles.getJSONObject(i);
+                    boolean lastArticle = i == (Articles.length() - 1);
 
-                    ArticleRenderer ar = new ArticleRenderer();
+                    ArticleRenderer ar = new ArticleRenderer(lastArticle);
                     ar.renderArticle(article, layout, getApplicationContext()); // Render the article
                 } catch (JSONException e) {
                     Log.d(TAG, e.getMessage());

@@ -22,6 +22,12 @@ import org.json.JSONObject;
 
 public final class ArticleRenderer {
     private static final String TAG = "ArticleRenderer";
+    private boolean LastArticle = false;
+
+    public ArticleRenderer(boolean lastArticle) {
+        if (lastArticle)
+            this.LastArticle = true;
+    }
 
     public void renderArticle(JSONObject article, LinearLayout layout, Context context)  {
         CardView cardView = createArticleCardView(context);
@@ -49,7 +55,11 @@ public final class ArticleRenderer {
     private CardView createArticleCardView(Context context) {
         // Create a CardView that will contain the article content
         CardView articleCard = new CardView(context);
-        articleCard.setLayoutParams(this.getParams());
+        LinearLayout.LayoutParams params = this.getParams();
+
+        int bottomMargin = this.LastArticle ? 60 : 10;
+        params.setMargins(0,0,0, bottomMargin);
+        articleCard.setLayoutParams(params);
         articleCard.setRadius(9);
         articleCard.setUseCompatPadding(true);
 

@@ -1,4 +1,4 @@
 # Newser
 
-Android news application powered by newsapi.org. <br>
-[Imgur](https://i.imgur.com/LM1pCxX.png)
+Android news application powered by newsapi.org. 
+![Imgur](https://i.imgur.com/oPWsn2W.png)

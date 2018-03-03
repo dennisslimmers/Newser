@@ -20,7 +20,7 @@ import com.newsapp.newsapplication.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class ArticleController {
+public final class ArticleController implements ArticleRenderer {
     private static final String TAG = "ArticleController";
     private boolean LastArticle = false;
 
@@ -52,7 +52,7 @@ public final class ArticleController {
         }
     }
 
-    private CardView createArticleCardView(Context context) {
+    public CardView createArticleCardView(Context context) {
         // Create a CardView that will contain the article content
         CardView articleCard = new CardView(context);
         LinearLayout.LayoutParams params = this.getParams();
@@ -66,7 +66,7 @@ public final class ArticleController {
         return articleCard;
     }
 
-    private TextView createTitleTV(Context context, JSONObject article) {
+    public TextView createTitleTV(Context context, JSONObject article) {
         try {
             // Create a TextView with the articles title as content
             TextView title = new TextView(context);
@@ -85,7 +85,7 @@ public final class ArticleController {
         return null;
     }
 
-    private TextView createDescriptionTV(Context context, JSONObject article) {
+    public TextView createDescriptionTV(Context context, JSONObject article) {
         try {
             // Create a TextView with the articles title as content
             TextView description = new TextView(context);
@@ -103,7 +103,7 @@ public final class ArticleController {
         return null;
     }
 
-    private TextView createHyperlink(Context context, JSONObject article) {
+    public TextView createHyperlink(Context context, JSONObject article) {
         try {
             String link = article.getString("url");
             String href = "<a href='" + link + "'>" + context.getString(R.string.read_more).toUpperCase() + "</a>";
@@ -127,7 +127,7 @@ public final class ArticleController {
         return null;
     }
 
-    private View createDivider(Context context) {
+    public View createDivider(Context context) {
         View divider = new View(context);
 
         float dividerHeight = context.getResources().getDisplayMetrics().density * 1;
@@ -140,7 +140,7 @@ public final class ArticleController {
         return divider;
     }
 
-    private ImageView createSourceIV(Context context, JSONObject article) {
+    public ImageView createSourceIV(Context context, JSONObject article) {
         try {
             ProportionalImageView image = new ProportionalImageView(context);
             image.setLayoutParams(this.getParams());

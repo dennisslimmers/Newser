@@ -7,7 +7,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.newsapp.newsapplication.config.*;
-import com.newsapp.newsapplication.renderer.ArticleRenderer;
+import com.newsapp.newsapplication.controllers.ArticleController;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             this.createMaterialDrawer(toolbar);
 
             // Retrieve the data
-            new NewsapiConnection().execute();
+            new NewsapiRepository().execute();
         }
     }
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject article = Articles.getJSONObject(i);
                     boolean lastArticle = i == (Articles.length() - 1);
 
-                    ArticleRenderer ar = new ArticleRenderer(lastArticle);
+                    ArticleController ar = new ArticleController(lastArticle);
                     ar.renderArticle(article, layout, getApplicationContext()); // Render the article
                 } catch (JSONException e) {
                     Log.d(TAG, e.getMessage());
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class NewsapiConnection extends AsyncTask<Void, Void, String> {
+    public class NewsapiRepository extends AsyncTask<Void, Void, String> {
         private final String TAG = "NEWSAPI";
 
         protected String doInBackground(Void... urls) {

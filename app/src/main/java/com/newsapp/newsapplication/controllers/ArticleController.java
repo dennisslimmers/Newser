@@ -1,4 +1,4 @@
-package com.newsapp.newsapplication.renderer;
+package com.newsapp.newsapplication.controllers;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -20,11 +20,11 @@ import com.newsapp.newsapplication.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class ArticleRenderer {
-    private static final String TAG = "ArticleRenderer";
+public final class ArticleController {
+    private static final String TAG = "ArticleController";
     private boolean LastArticle = false;
 
-    public ArticleRenderer(boolean lastArticle) {
+    public ArticleController(boolean lastArticle) {
         if (lastArticle)
             this.LastArticle = true;
     }

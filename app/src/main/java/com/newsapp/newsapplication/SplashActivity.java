@@ -31,8 +31,8 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mainActivity = new Intent(SplashActivity.this, MainActivity.class);
-                SplashActivity.this.startActivity(mainActivity);
+                Intent feedActivity = new Intent(SplashActivity.this, MainActivity.class);
+                SplashActivity.this.startActivity(feedActivity);
                 SplashActivity.this.finish();
             }
         }, this.SPLASH_DISPLAY_TIME);

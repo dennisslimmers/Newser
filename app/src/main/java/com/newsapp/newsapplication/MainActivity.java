@@ -1,6 +1,11 @@
 package com.newsapp.newsapplication;
 
-import android.app.Activity;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.newsapp.newsapplication.config.*;
 import com.newsapp.newsapplication.renderer.ArticleRenderer;
 
@@ -9,12 +14,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +31,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     public final String TAG = "MAIN";
     public JSONArray Articles;
 
@@ -35,19 +40,35 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        TextView status = this.findViewById(R.id.ConnectionStatus);
-        if (!this.hasConnection()) {
-            status.setText(getString(R.string.no_connection));
-        } else {
-            status.setVisibility(View.INVISIBLE);
-
-            // Set action bar title
-            if (this.getActionBar() != null)
-                this.getActionBar().setTitle(Config.getHomeNewsSource());
+        if (this.hasConnection()) {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            this.createMaterialDrawer(toolbar);
 
             // Retrieve the data
             new NewsapiConnection().execute();
         }
+    }
+
+    private void createMaterialDrawer(Toolbar toolbar) {
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.home);
+        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.temp);
+
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                    item1, new DividerDrawerItem(),
+                    item2, new SecondaryDrawerItem().withName(R.string.temp)
+                )
+
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        return true;
+                    }
+                }).build();
     }
 
     private boolean hasConnection() {
@@ -55,6 +76,31 @@ public class MainActivity extends Activity {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
         return netInfo != null && netInfo.isConnected();
+    }
+
+    public LinearLayout getLayout() {
+        LinearLayout layout = (LinearLayout) this.findViewById(R.id.mainLayout);
+        LinearLayout containerLayout = new LinearLayout(layout.getContext());
+
+        layout.setOrientation(LinearLayout.VERTICAL);
+        containerLayout.setOrientation(LinearLayout.VERTICAL);
+
+        ScrollView.LayoutParams params = new ScrollView.LayoutParams(
+            ScrollView.LayoutParams.MATCH_PARENT,
+            ScrollView.LayoutParams.WRAP_CONTENT
+        );
+        layout.setLayoutParams(params);
+
+        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        containerParams.setMargins(20,20,20,0);
+        containerLayout.setLayoutParams(containerParams);
+
+        layout.addView(containerLayout);
+        return containerLayout;
     }
 
     public void renderArticles() {
@@ -73,25 +119,6 @@ public class MainActivity extends Activity {
                 }
             }
         }
-    }
-
-    public LinearLayout getLayout() {
-        LinearLayout layout = new LinearLayout(getApplicationContext());
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        params.setMargins(20, 20,20, 0);
-        layout.setLayoutParams(params);
-
-        ScrollView scrollView = new ScrollView(getApplicationContext());
-        scrollView.addView(layout);
-
-        setContentView(scrollView); // The ScrollView needs to be set as ContentView to be able to scroll
-        return layout;
     }
 
     public class NewsapiConnection extends AsyncTask<Void, Void, String> {

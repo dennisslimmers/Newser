@@ -29,7 +29,7 @@ public final class ArticleRenderer {
             this.LastArticle = true;
     }
 
-    public void renderArticle(JSONObject article, LinearLayout layout, Context context)  {
+    public void renderArticle(JSONObject article, LinearLayout containerLayout, Context context)  {
         CardView cardView = createArticleCardView(context);
         LinearLayout cardViewLayout = new LinearLayout(cardView.getContext());
         cardViewLayout.setOrientation(LinearLayout.VERTICAL);
@@ -48,7 +48,7 @@ public final class ArticleRenderer {
             cardViewLayout.addView(divider);      // Add the divider to the CardViewLayout
             cardViewLayout.addView(hyperlink);    // Add the hyperlink to the CardViewLayout
             cardView.addView(cardViewLayout);     // Add the CardViewLayout to the CardView
-            layout.addView(cardView);             // Add the CardView to the layout
+            containerLayout.addView(cardView);    // Add the CardView to the containerLayout
         }
     }
 

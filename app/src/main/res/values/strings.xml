@@ -4,16 +4,9 @@
     <string name="no_connection">No internet connection!</string>
     <string name="api_error">An error occurred while retrieving the data from Newsapi.org</string>
     <string name="read_more">Read more</string>
-    <string name="title_activity_feed">FeedActivity</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_example">Example action</string>
-
-    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="the_verge">The Verge</string>
+    <string name="polygon">Polygon</string>
+    <string name="rtl_nieuws">RTL Nieuws</string>
 </resources>

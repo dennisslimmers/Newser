@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.newsapp.newsapplication.logging.Logger;
 import com.newsapp.newsapplication.views.ProportionalImageView;
 import com.squareup.picasso.Picasso;
 import com.newsapp.newsapplication.R;
@@ -20,8 +21,7 @@ import com.newsapp.newsapplication.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class ArticleController implements ArticleRenderer {
-    private static final String TAG = "ArticleController";
+public final class ArticleController implements ArticleRenderer, Logger {
     private boolean LastArticle = false;
 
     public ArticleController(boolean lastArticle) {
@@ -79,7 +79,7 @@ public final class ArticleController implements ArticleRenderer {
 
             return title;
         } catch(JSONException e) {
-            Log.e(TAG, e.getMessage());
+            dump(e.getMessage());
         }
 
         return null;
@@ -97,7 +97,7 @@ public final class ArticleController implements ArticleRenderer {
 
             return description;
         } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
+            dump(e.getMessage());
         }
 
         return null;
@@ -121,7 +121,7 @@ public final class ArticleController implements ArticleRenderer {
 
             return hyperlink;
         } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
+            dump(e.getMessage());
         }
 
         return null;
@@ -151,7 +151,7 @@ public final class ArticleController implements ArticleRenderer {
 
             return image;
         } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
+            dump(e.getMessage());
         }
 
         return null;
@@ -169,6 +169,15 @@ public final class ArticleController implements ArticleRenderer {
             return description.substring(0, 200).trim() + "...";
         else
             return  description;
+    }
+
+    @Override
+    public void dump(String message) {
+        final String TAG = Thread.currentThread()
+                .getStackTrace()[2]
+                .getClassName();
+
+        Log.e(TAG, message);
     }
 }
 

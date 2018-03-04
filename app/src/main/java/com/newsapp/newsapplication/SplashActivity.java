@@ -1,19 +1,20 @@
 package com.newsapp.newsapplication;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.newsapp.newsapplication.config.Config;
+import com.newsapp.newsapplication.logging.Logger;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity implements Logger {
     public final int SPLASH_DISPLAY_TIME = 2000;
 
     @Override
@@ -45,5 +46,14 @@ public class SplashActivity extends Activity {
 
         t.setText(appName);
         t.setTypeface(font);
+    }
+
+    @Override
+    public void dump(String message) {
+        final String TAG = Thread.currentThread()
+                .getStackTrace()[2]
+                .getClassName();
+
+        Log.e(TAG, message);
     }
 }

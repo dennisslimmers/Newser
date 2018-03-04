@@ -2,12 +2,13 @@ package com.newsapp.newsapplication;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.newsapp.newsapplication.config.*;
 import com.newsapp.newsapplication.controllers.ArticleController;
+import com.newsapp.newsapplication.controllers.DrawerController;
+import com.newsapp.newsapplication.logging.Logger;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -31,8 +32,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
-    public final String TAG = "MAIN";
+public class MainActivity extends AppCompatActivity implements Logger {
     public JSONArray Articles;
 
     @Override
@@ -52,23 +52,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void createMaterialDrawer(Toolbar toolbar) {
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.home);
-        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.temp);
+        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(1).withName(R.string.temp);
 
         Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .addDrawerItems(
-                    item1, new DividerDrawerItem(),
-                    item2, new SecondaryDrawerItem().withName(R.string.temp)
-                )
+            .withActivity(this)
+            .withToolbar(toolbar)
 
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
-                        return true;
-                    }
-                }).build();
+            .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                @Override
+                public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                    DrawerController.onDrawerItemClick(position);
+
+                    // do something with the clicked item :D
+                    return true;
+                }
+            }).build();
     }
 
     private boolean hasConnection() {
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     ArticleController ar = new ArticleController(lastArticle);
                     ar.renderArticle(article, layout, getApplicationContext()); // Render the article
                 } catch (JSONException e) {
-                    Log.d(TAG, e.getMessage());
+                    dump(e.getMessage());
                 }
             }
         }
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     urlConnection.disconnect();
                 }
             } catch (Exception e){
-                Log.e(TAG, e.getMessage(), e);
+                dump(e.getMessage());
                 return null;
             }
         }
@@ -157,12 +155,21 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject object = (JSONObject) new JSONTokener(response).nextValue();
                     Articles = object.getJSONArray("articles");
 
-                    Log.e(TAG, Articles.toString());
+                    dump(Articles.toString());
                     renderArticles(); // Print all the articles
                 } catch (JSONException e) {
-                    Log.e(TAG, e.getMessage());
+                    dump(e.getMessage());
                 }
             }
         }
+    }
+
+    @Override
+    public void dump(String message) {
+        final String TAG = Thread.currentThread()
+                .getStackTrace()[2]
+                .getClassName();
+
+        Log.e(TAG, message);
     }
 }

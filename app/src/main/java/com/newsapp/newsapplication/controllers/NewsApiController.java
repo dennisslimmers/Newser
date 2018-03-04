@@ -56,7 +56,19 @@ public class NewsApiController {
         CNN,
         NATIONAL_GEOGRAPHIC,
         TECH_RADAR,
-        NEW_YORK_TIMES,
-        TECH_CRUNCH
+        TECH_CRUNCH,
+        NEW_YORK_TIMES;
+
+        public static int getIndex(NewsSource source) {
+            int index = 0;
+
+            for (int i = 0; i < NewsSource.values().length; i++) {
+                if (NewsSource.values()[i] == source) {
+                    index = i;
+                }
+            }
+
+            return index;
+        }
     }
 }

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.newsapp.newsapplication.config.Config;
+import com.newsapp.newsapplication.controllers.NewsApiController;
 import com.newsapp.newsapplication.logging.Logger;
 
 public class SplashActivity extends AppCompatActivity implements Logger {
@@ -20,6 +21,9 @@ public class SplashActivity extends AppCompatActivity implements Logger {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set the current news source to the default source. TODO: Make this configurable through the app
+        NewsApiController.setCurrentNewsSource(NewsApiController.HOME_NEWS_SOURCE);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

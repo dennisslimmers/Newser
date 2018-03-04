@@ -19,11 +19,21 @@ import java.util.List;
 
 public class DrawerController implements Logger {
     private static void onDrawerItemClick(int position, AppCompatActivity activity) {
+        // Set the toolbar title to the selected news source
+        // setToolbarTitle(position, activity);
+    }
 
+    private static void setToolbarTitle(int position, AppCompatActivity activity) {
+        Toolbar toolbar = activity.findViewById(R.id.toolbar);
+        NewsApiController.NewsSource selectedSource = NewsApiController.NewsSource.values()[(position - 1)];
+
+        toolbar.setTitle(NewsApiController.mapSourceToString(selectedSource).replace('-',  ' '));
     }
 
     public void createMaterialDrawer(Toolbar toolbar, final AppCompatActivity activity) {
         Drawer drawer;
+        int newsSourceIndex = NewsApiController.NewsSource.getIndex(NewsApiController.getCurrentSource());
+
         drawer = new DrawerBuilder()
             .withActivity(activity)
             .withToolbar(toolbar)
@@ -46,7 +56,8 @@ public class DrawerController implements Logger {
             drawer.addItem((IDrawerItem) getNewsSources().toArray()[i]);
         }
 
-        drawer.setSelection(1);
+        // Set drawer item selection
+        drawer.setSelection(newsSourceIndex);
     }
 
     private static List<SecondaryDrawerItem> getNewsSources() {
@@ -54,47 +65,47 @@ public class DrawerController implements Logger {
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.RTL_NIEUWS)
                         .replace('-', ' ')
-            ).withIdentifier(1),
+            ).withIdentifier(0),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_VERGE)
                         .replace('-', ' ')
-            ).withIdentifier(2),
+            ).withIdentifier(1),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.POLYGON)
                         .replace('-', ' ')
-            ).withIdentifier(3),
+            ).withIdentifier(2),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_GUARDIAN)
                         .replace('-', ' ')
-            ).withIdentifier(4),
+            ).withIdentifier(3),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.CNN)
                         .replace('-', ' ')
-            ).withIdentifier(5),
+            ).withIdentifier(4),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.NATIONAL_GEOGRAPHIC)
                         .replace('-', ' ')
-            ).withIdentifier(6),
+            ).withIdentifier(5),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.TECH_RADAR)
                         .replace('-', ' ')
-            ).withIdentifier(7),
+            ).withIdentifier(6),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.TECH_CRUNCH)
                         .replace('-', ' ')
-            ).withIdentifier(8),
+            ).withIdentifier(7),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.NEW_YORK_TIMES)
                         .replace('-', ' ')
-            ).withIdentifier(9)
+            ).withIdentifier(8)
         );
     }
 

@@ -1,8 +1,8 @@
 package com.newsapp.newsapplication;
 
-import com.newsapp.newsapplication.config.*;
 import com.newsapp.newsapplication.controllers.ArticleController;
 import com.newsapp.newsapplication.controllers.DrawerController;
+import com.newsapp.newsapplication.controllers.NewsApiController;
 import com.newsapp.newsapplication.logging.Logger;
 
 import android.content.Context;
@@ -35,7 +35,11 @@ public class MainActivity extends AppCompatActivity implements Logger {
         this.setContentView(R.layout.activity_main);
 
         if (this.hasConnection()) {
+            // Set the current news source to the default source. TODO: Make this configurable through the app
+            NewsApiController.setCurrentNewsSource(NewsApiController.HOME_NEWS_SOURCE);
+
             Toolbar toolbar = findViewById(R.id.toolbar);
+            toolbar.setTitle(NewsApiController.mapSourceToString(NewsApiController.getCurrentSource()).replace('-', ' '));
             setSupportActionBar(toolbar);
 
             // Create the side menu (MaterialDrawer)
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements Logger {
 
         protected String doInBackground(Void... urls) {
             try {
-                URL url = new URL(Config.getFullApiUrl());
+                URL url = new URL(NewsApiController.getFullApiUrl());
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 try {

@@ -51,9 +51,50 @@ public class DrawerController implements Logger {
 
     private static List<SecondaryDrawerItem> getNewsSources() {
         return Arrays.asList(
-            new SecondaryDrawerItem ().withName(R.string.rtl_nieuws).withIdentifier(1),
-            new SecondaryDrawerItem ().withName(R.string.the_verge).withIdentifier(2),
-            new SecondaryDrawerItem ().withName(R.string.polygon).withIdentifier(3)
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.RTL_NIEUWS)
+                        .replace('-', ' ')
+            ).withIdentifier(1),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_VERGE)
+                        .replace('-', ' ')
+            ).withIdentifier(2),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.POLYGON)
+                        .replace('-', ' ')
+            ).withIdentifier(3),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_GUARDIAN)
+                        .replace('-', ' ')
+            ).withIdentifier(4),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.CNN)
+                        .replace('-', ' ')
+            ).withIdentifier(5),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.NATIONAL_GEOGRAPHIC)
+                        .replace('-', ' ')
+            ).withIdentifier(6),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.TECH_RADAR)
+                        .replace('-', ' ')
+            ).withIdentifier(7),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.TECH_CRUNCH)
+                        .replace('-', ' ')
+            ).withIdentifier(8),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.NEW_YORK_TIMES)
+                        .replace('-', ' ')
+            ).withIdentifier(9)
         );
     }
 

@@ -1,10 +1,5 @@
 package com.newsapp.newsapplication;
 
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.newsapp.newsapplication.config.*;
 import com.newsapp.newsapplication.controllers.ArticleController;
 import com.newsapp.newsapplication.controllers.DrawerController;
@@ -17,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.support.v7.widget.Toolbar;
@@ -43,30 +37,14 @@ public class MainActivity extends AppCompatActivity implements Logger {
         if (this.hasConnection()) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-            this.createMaterialDrawer(toolbar);
+
+            // Create the side menu (MaterialDrawer)
+            DrawerController dw = new DrawerController();
+            dw.createMaterialDrawer(toolbar, this);
 
             // Retrieve the data
             new NewsapiRepository().execute();
         }
-    }
-
-    private void createMaterialDrawer(Toolbar toolbar) {
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.home);
-        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(1).withName(R.string.temp);
-
-        Drawer result = new DrawerBuilder()
-            .withActivity(this)
-            .withToolbar(toolbar)
-
-            .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                @Override
-                public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                    DrawerController.onDrawerItemClick(position);
-
-                    // do something with the clicked item :D
-                    return true;
-                }
-            }).build();
     }
 
     private boolean hasConnection() {

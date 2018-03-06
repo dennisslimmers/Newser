@@ -18,9 +18,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DrawerController implements Logger {
-    private static void onDrawerItemClick(int position, AppCompatActivity activity) {
+    private Drawer drawer;
+
+    private void onDrawerItemClick(int position, AppCompatActivity activity) {
         // Set the toolbar title to the selected news source
-        // setToolbarTitle(position, activity);
+        setToolbarTitle(position, activity);
+    }
+
+    private void closeDrawer() {
+        drawer.closeDrawer();
     }
 
     private static void setToolbarTitle(int position, AppCompatActivity activity) {
@@ -31,7 +37,6 @@ public class DrawerController implements Logger {
     }
 
     public void createMaterialDrawer(Toolbar toolbar, final AppCompatActivity activity) {
-        Drawer drawer;
         int newsSourceIndex = NewsApiController.NewsSource.getIndex(NewsApiController.getCurrentSource());
 
         drawer = new DrawerBuilder()
@@ -41,9 +46,9 @@ public class DrawerController implements Logger {
             .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                    DrawerController.onDrawerItemClick(position, activity);
+                    onDrawerItemClick(position, activity);
+                    closeDrawer();
 
-                    // do something with the clicked item :D
                     return true;
                 }
             }).build();

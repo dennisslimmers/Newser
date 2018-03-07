@@ -4,12 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.newsapp.newsapplication.MainActivity;
 import com.newsapp.newsapplication.R;
 import com.newsapp.newsapplication.logging.Logger;
 
@@ -23,10 +25,29 @@ public class DrawerController implements Logger {
     private void onDrawerItemClick(int position, AppCompatActivity activity) {
         // Set the toolbar title to the selected news source
         setToolbarTitle(position, activity);
+
+        // Apply the new news source
+        NewsApiController.setCurrentNewsSource(NewsApiController.NewsSource.values()[(position - 1)]);
+
+        // Close the drawer
+        closeDrawer();
+
+        // clear the container layout, when the NewsRepository is called it will be recreated
+        clearLayout(activity);
+
+        // Fetch all the news articles with the new news source
+        ((MainActivity)activity).fetchNewsArticles();
     }
 
     private void closeDrawer() {
         drawer.closeDrawer();
+    }
+
+    private static void clearLayout(AppCompatActivity activity) {
+        LinearLayout containerLayout = (LinearLayout) activity.findViewById(R.id.mainLayout).findViewById(R.id.containerLayout);
+
+        if (containerLayout != null)
+            containerLayout.removeAllViews();
     }
 
     private static void setToolbarTitle(int position, AppCompatActivity activity) {
@@ -47,8 +68,6 @@ public class DrawerController implements Logger {
                 @Override
                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                     onDrawerItemClick(position, activity);
-                    closeDrawer();
-
                     return true;
                 }
             }).build();

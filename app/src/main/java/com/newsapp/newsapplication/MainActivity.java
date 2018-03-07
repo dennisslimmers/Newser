@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements Logger {
             dw.createMaterialDrawer(toolbar, this);
 
             // Retrieve the data
-            new NewsapiRepository().execute();
+            this.fetchNewsArticles();
         }
     }
 
@@ -57,26 +57,33 @@ public class MainActivity extends AppCompatActivity implements Logger {
 
     public LinearLayout getLayout() {
         LinearLayout layout = (LinearLayout) this.findViewById(R.id.mainLayout);
-        LinearLayout containerLayout = new LinearLayout(layout.getContext());
-
         layout.setOrientation(LinearLayout.VERTICAL);
-        containerLayout.setOrientation(LinearLayout.VERTICAL);
 
         ScrollView.LayoutParams params = new ScrollView.LayoutParams(
             ScrollView.LayoutParams.MATCH_PARENT,
             ScrollView.LayoutParams.WRAP_CONTENT
         );
+
         layout.setLayoutParams(params);
 
-        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        );
+        LinearLayout containerLayout;
+        if (findViewById(R.id.containerLayout) == null) {
+            containerLayout = new LinearLayout(layout.getContext());
+            containerLayout.setOrientation(LinearLayout.VERTICAL);
 
-        containerParams.setMargins(20,20,20,0);
-        containerLayout.setLayoutParams(containerParams);
+            LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
 
-        layout.addView(containerLayout);
+            containerParams.setMargins(20,20,20,0);
+            containerLayout.setLayoutParams(containerParams);
+            containerLayout.setId(R.id.containerLayout);
+            layout.addView(containerLayout);
+        } else {
+            containerLayout = (LinearLayout) findViewById(R.id.containerLayout);
+        }
+
         return containerLayout;
     }
 
@@ -128,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements Logger {
 
         protected void onPostExecute(String response) {
             if (response == null) {
-                Log.e(TAG, getString(R.string.api_error));
+                dump(getString(R.string.api_error));
             } else {
                 try {
                     JSONObject object = (JSONObject) new JSONTokener(response).nextValue();
@@ -141,6 +148,10 @@ public class MainActivity extends AppCompatActivity implements Logger {
                 }
             }
         }
+    }
+
+    public void fetchNewsArticles() {
+        new NewsapiRepository().execute();
     }
 
     @Override

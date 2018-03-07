@@ -28,17 +28,17 @@ public class NewsApiController {
             case THE_VERGE:
                 return "The-Verge";
             case THE_GUARDIAN:
-                return "The-Guardian";
+                return "The-Guardian-UK";
             case CNN:
                 return "CNN";
             case NATIONAL_GEOGRAPHIC:
                 return "National-Geographic";
             case TECH_RADAR:
-                return "Tech-Radar";
+                return "TechRadar";
             case TECH_CRUNCH:
-                return "Tech-Crunch";
+                return "TechCrunch";
             case NEW_YORK_TIMES:
-                return "New-York-Times";
+                return "The-New-York-Times";
             default:
                 return "RTL-Nieuws";
         }

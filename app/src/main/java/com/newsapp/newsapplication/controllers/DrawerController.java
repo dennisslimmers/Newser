@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.newsapp.newsapplication.MainActivity;
@@ -22,12 +23,14 @@ import java.util.List;
 public class DrawerController implements Logger {
     private Drawer drawer;
 
-    private void onDrawerItemClick(int position, AppCompatActivity activity) {
+    private void onDrawerItemClick(int identifier, AppCompatActivity activity) {
+        dump(Integer.toString(identifier));
+
         // Set the toolbar title to the selected news source
-        setToolbarTitle(position, activity);
+        setToolbarTitle(identifier, activity);
 
         // Apply the new news source
-        NewsApiController.setCurrentNewsSource(NewsApiController.NewsSource.values()[(position - 1)]);
+        NewsApiController.setCurrentNewsSource(NewsApiController.NewsSource.values()[(identifier)]);
 
         // Close the drawer
         closeDrawer();
@@ -50,9 +53,9 @@ public class DrawerController implements Logger {
             containerLayout.removeAllViews();
     }
 
-    private static void setToolbarTitle(int position, AppCompatActivity activity) {
+    private static void setToolbarTitle(int identifier, AppCompatActivity activity) {
         Toolbar toolbar = activity.findViewById(R.id.toolbar);
-        NewsApiController.NewsSource selectedSource = NewsApiController.NewsSource.values()[(position - 1)];
+        NewsApiController.NewsSource selectedSource = NewsApiController.NewsSource.values()[(identifier)];
 
         toolbar.setTitle(NewsApiController.mapSourceToString(selectedSource).replace('-',  ' '));
     }
@@ -63,46 +66,43 @@ public class DrawerController implements Logger {
         drawer = new DrawerBuilder()
             .withActivity(activity)
             .withToolbar(toolbar)
+            .withSelectedItem(0)
 
             .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                 @Override
                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                    onDrawerItemClick(position, activity);
+                    onDrawerItemClick((int)drawerItem.getIdentifier(), activity);
                     return true;
                 }
             }).build();
-
-        // Add the sources header
-        drawer.addItem(new PrimaryDrawerItem().withName(R.string.sources).withSelectable(false));
 
         // Add all the news sources to the drawer
         for (int i = 0; i < getNewsSources().toArray().length; i++) {
             drawer.addItem((IDrawerItem) getNewsSources().toArray()[i]);
         }
-
-        // Set drawer item selection
-        drawer.setSelection(newsSourceIndex);
     }
 
-    private static List<SecondaryDrawerItem> getNewsSources() {
+    private static List<IDrawerItem> getNewsSources() {
         return Arrays.asList(
+            (IDrawerItem) new PrimaryDrawerItem().withName(R.string.general).withSelectable(false),
+
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.RTL_NIEUWS)
                         .replace('-', ' ')
             ).withIdentifier(0),
 
             new SecondaryDrawerItem ().withName(
-                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_VERGE)
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_GUARDIAN)
                         .replace('-', ' ')
             ).withIdentifier(1),
 
             new SecondaryDrawerItem ().withName(
-                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.POLYGON)
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.NATIONAL_GEOGRAPHIC)
                         .replace('-', ' ')
             ).withIdentifier(2),
 
             new SecondaryDrawerItem ().withName(
-                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_GUARDIAN)
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.NEW_YORK_TIMES)
                         .replace('-', ' ')
             ).withIdentifier(3),
 
@@ -111,8 +111,10 @@ public class DrawerController implements Logger {
                         .replace('-', ' ')
             ).withIdentifier(4),
 
+            new PrimaryDrawerItem ().withName(R.string.tech).withSelectable(false),
+
             new SecondaryDrawerItem ().withName(
-                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.NATIONAL_GEOGRAPHIC)
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.THE_VERGE)
                         .replace('-', ' ')
             ).withIdentifier(5),
 
@@ -126,8 +128,10 @@ public class DrawerController implements Logger {
                         .replace('-', ' ')
             ).withIdentifier(7),
 
+            new PrimaryDrawerItem ().withName(R.string.tech).withSelectable(false),
+
             new SecondaryDrawerItem ().withName(
-                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.NEW_YORK_TIMES)
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.POLYGON)
                         .replace('-', ' ')
             ).withIdentifier(8),
 

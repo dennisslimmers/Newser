@@ -52,14 +52,14 @@ public class NewsApiController {
 
     public enum NewsSource {
         RTL_NIEUWS,
-        THE_VERGE,
-        POLYGON,
         THE_GUARDIAN,
-        CNN,
         NATIONAL_GEOGRAPHIC,
+        NEW_YORK_TIMES,
+        CNN,
+        THE_VERGE,
         TECH_RADAR,
         TECH_CRUNCH,
-        NEW_YORK_TIMES,
+        POLYGON,
         IGN;
 
         public static int getIndex(NewsSource source) {

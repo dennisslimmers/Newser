@@ -129,7 +129,12 @@ public class DrawerController implements Logger {
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.NEW_YORK_TIMES)
                         .replace('-', ' ')
-            ).withIdentifier(8)
+            ).withIdentifier(8),
+
+            new SecondaryDrawerItem ().withName(
+                    NewsApiController.mapSourceToString(NewsApiController.NewsSource.IGN)
+                            .replace('-', ' ')
+            ).withIdentifier(9)
         );
     }
 

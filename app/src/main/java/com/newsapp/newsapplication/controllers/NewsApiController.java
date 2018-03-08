@@ -39,6 +39,8 @@ public class NewsApiController {
                 return "TechCrunch";
             case NEW_YORK_TIMES:
                 return "The-New-York-Times";
+            case IGN:
+                return "IGN";
             default:
                 return "RTL-Nieuws";
         }
@@ -57,7 +59,8 @@ public class NewsApiController {
         NATIONAL_GEOGRAPHIC,
         TECH_RADAR,
         TECH_CRUNCH,
-        NEW_YORK_TIMES;
+        NEW_YORK_TIMES,
+        IGN;
 
         public static int getIndex(NewsSource source) {
             int index = 0;

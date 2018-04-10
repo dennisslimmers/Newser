@@ -128,7 +128,7 @@ public class DrawerController implements Logger {
                         .replace('-', ' ')
             ).withIdentifier(7),
 
-            new PrimaryDrawerItem ().withName(R.string.tech).withSelectable(false),
+            new PrimaryDrawerItem ().withName(R.string.gaming).withSelectable(false),
 
             new SecondaryDrawerItem ().withName(
                     NewsApiController.mapSourceToString(NewsApiController.NewsSource.POLYGON)
